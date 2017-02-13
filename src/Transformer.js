@@ -1,5 +1,6 @@
 'use strict';
 
+const moment = require('moment');
 
 /**
  * Parses JSON data and transforms it to readable xml
@@ -16,14 +17,20 @@ class Transformer {
    * @memberOf Transformer
    */
   convertToHTML(data) {
-    const table = data;
+    const table = data.table;
+    const date = moment(data.date);
+    const lastEdited = moment(data.lastEdited);
+    date.locale('de');
+    lastEdited.locale('de');
 
-    let html = '<table><tbody><tr>';
+    let html = `<h2 style="text-align: center; margin-top: 5px">${date.format('dddd, D. MMMM YYYY')}</h2>`;
+    html += '<table class="vplan"><tbody><tr>';
 
     html += this.extractHeaders(table);
     html += this.extractSubs(table);
 
-    html += '</tr></tbody></table>';
+    html += '</tr></tbody></table><br><br>';
+    html += `<p>Zuletzt geändert: ${lastEdited.format('LLLL')}</p>`;
 
     return html;
   }

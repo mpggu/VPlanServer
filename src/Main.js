@@ -2,7 +2,7 @@
 
 const Transformer = require('./Transformer');
 const Server = require('./Server');
-const VPlanParser = require('../../VPlanParser/src/VPlanParser');
+const VPlan = require('../../VPlanParser/src/VPlanParser');
 const wordpress = require('wordpress');
 
 const config = require('../config.json');
@@ -47,9 +47,9 @@ class Main {
   onReady() {
   }
 
-  onNewPlan(vplan) {
-    const parsedObject = new VPlanParser(vplan).table;
-    const wpHTML = this.transformer.convertToHTML(parsedObject);
+  onNewPlan(data) {
+    const vplan = new VPlan(data);
+    const wpHTML = this.transformer.convertToHTML(vplan);
 
     // Instantly syncs new plan, TODO: Cron this
     this.editVPlanPost(wpHTML);
