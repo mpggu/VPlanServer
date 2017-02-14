@@ -2,7 +2,7 @@
 
 const Transformer = require('./Transformer');
 const Server = require('./Server');
-const VPlan = require('../../VPlanParser/src/VPlanParser');
+const VPlan = require('vplanparser');
 const wordpress = require('wordpress');
 
 const config = require('../config.json');
