@@ -5,7 +5,6 @@ const Server = require('./Server');
 const VPlan = require('vplanparser');
 const wordpress = require('wordpress');
 const moment = require('moment');
-moment.locale('de');
 
 const config = require('../config.json');
 
@@ -22,6 +21,8 @@ class Main {
 
     this.server.once('ready', this.onReady.bind(this));
     this.server.on('newPlan', this.onNewPlan.bind(this));
+
+    moment.locale('de');
   }
 
   /**
@@ -79,9 +80,12 @@ class Main {
    */
   onNewPlan(data) {
     const vplan = new VPlan(data);
+    const date = moment(vplan.date);
+    date.locale('de');
+
     const wpHTML = this.transformer.convertToHTML(vplan);
 
-    log.info(`New substitution plan: ${moment().format('LLLL')}`);
+    log.info(`New substitution plan: ${date.format('LLLL')}`);
     // Instantly syncs new plan, TODO: Cron this
     this.editVPlanPost(wpHTML);
   }
