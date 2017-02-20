@@ -1,4 +1,7 @@
 {
+  "globals": {
+    "log": false
+  },
   "extends": "eslint:recommended",
   "parserOptions": {
     "ecmaVersion": 6,

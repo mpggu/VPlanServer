@@ -4,6 +4,8 @@ const Transformer = require('./Transformer');
 const Server = require('./Server');
 const VPlan = require('vplanparser');
 const wordpress = require('wordpress');
+const moment = require('moment');
+moment.locale('de');
 
 const config = require('../config.json');
 
@@ -22,6 +24,13 @@ class Main {
     this.server.on('newPlan', this.onNewPlan.bind(this));
   }
 
+  /**
+   * Gets the current content of the wordpress post containing the substitution plan
+   *
+   * @returns {Promise<string>} Resolves with the content
+   *
+   * @memberOf Main
+   */
   getVPlanPost() {
     return new Promise((res, rej) => {
       this.wpClient.getPost(config.wpPageID, (err, post) => {
@@ -33,6 +42,14 @@ class Main {
     });
   }
 
+  /**
+   * Edits the conrtent of the Wordpress post containing the substitution plan
+   *
+   * @param {string} content What to set the content of the post to
+   * @returns {Promise} Resolved on success
+   *
+   * @memberOf Main
+   */
   editVPlanPost(content) {
     return new Promise((res, rej) => {
       this.wpClient.editPost(config.wpPageID, { content }, (err) => {
@@ -44,13 +61,27 @@ class Main {
     });
   }
 
+  /**
+   * Everything is ready!
+   *
+   * @memberOf Main
+   */
   onReady() {
+    log.info('Server ready!');
   }
 
+  /**
+   * What to do when a new substitution plan arrives
+   *
+   * @param {string} data The raw vplan xml string
+   *
+   * @memberOf Main
+   */
   onNewPlan(data) {
     const vplan = new VPlan(data);
     const wpHTML = this.transformer.convertToHTML(vplan);
 
+    log.info(`New substitution plan: ${moment().format('LLLL')}`);
     // Instantly syncs new plan, TODO: Cron this
     this.editVPlanPost(wpHTML);
   }

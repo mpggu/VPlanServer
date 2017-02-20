@@ -5,6 +5,8 @@ const EventEmitter = require('events');
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
 
 const config = require('../config.json');
 
@@ -18,8 +20,24 @@ class Server extends EventEmitter {
     this.setup();
   }
 
+  createWriteStream() {
+    const filePath = path.join(__dirname, '../logs/access.log');
+
+    try {
+      fs.accessSync(filePath);
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        fs.openSync(filePath, 'wx');
+      } else {
+        throw err;
+      }
+    }
+    return fs.createWriteStream(filePath, { flags: 'a' });
+  }
+
   setup() {
-    this.app.use(morgan('dev'));
+    const stream = this.createWriteStream();
+    this.app.use(morgan('combined', { stream }));
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(bodyParser.json());
 
