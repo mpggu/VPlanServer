@@ -12,6 +12,12 @@ const config = require('../config.json');
 
 
 class Server extends EventEmitter {
+  /**
+   * Creates an instance of Server which will server a RESTful API to receive new plans or hand them out.
+   * @param {number} port What port to run the server on.
+   *
+   * @memberOf Server
+   */
   constructor(port) {
     super();
     this.app = express();
@@ -20,6 +26,13 @@ class Server extends EventEmitter {
     this.setup();
   }
 
+  /**
+   * Creates a write stream for morgan, the http request logger middleware, to use.
+   *
+   * @returns {fs.WriteStream} The created writable stream
+   *
+   * @memberOf Server
+   */
   createWriteStream() {
     const filePath = path.join(__dirname, '../logs/access.log');
 
@@ -35,6 +48,12 @@ class Server extends EventEmitter {
     return fs.createWriteStream(filePath, { flags: 'a' });
   }
 
+  /**
+   * Sets up the middleware for the express server and starts it
+   *
+   *
+   * @memberOf Server
+   */
   setup() {
     const stream = this.createWriteStream();
     this.app.use(morgan('combined', { stream }));
@@ -48,6 +67,12 @@ class Server extends EventEmitter {
     });
   }
 
+  /**
+   * Initialises the routes of the server
+   *
+   *
+   * @memberOf Server
+   */
   initServer() {
     this.app.all('/*', (req, res, next) => {
       // CORS headers

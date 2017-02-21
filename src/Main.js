@@ -2,6 +2,7 @@
 
 const Transformer = require('./Transformer');
 const Server = require('./Server');
+const Updater = require('./Updater');
 const VPlan = require('vplanparser');
 const wordpress = require('wordpress');
 const moment = require('moment');
@@ -13,11 +14,17 @@ class Main {
   constructor(port = 6767) {
     this.server = new Server(port);
     this.transformer = new Transformer();
+    this.updater = new Updater(this);
     this.wpClient = wordpress.createClient({
       url: config.wpURL,
       username: config.wpUsername,
       password: config.wpPassword,
     });
+
+    this.plans = {
+      today: null,
+      tomorrow: null,
+    };
 
     this.server.once('ready', this.onReady.bind(this));
     this.server.on('newPlan', this.onNewPlan.bind(this));
@@ -55,6 +62,7 @@ class Main {
     return new Promise((res, rej) => {
       this.wpClient.editPost(config.wpPageID, { content }, (err) => {
         if (err) {
+          log.error('Couldn\'t edit the WordPress post');
           return rej(err);
         }
         return res();
@@ -83,11 +91,8 @@ class Main {
     const date = moment(vplan.date);
     date.locale('de');
 
-    const wpHTML = this.transformer.convertToHTML(vplan);
-
-    log.info(`New substitution plan: ${date.format('LLLL')}`);
-    // Instantly syncs new plan, TODO: Cron this
-    this.editVPlanPost(wpHTML);
+    log.info(`New substitution plan POSTed: ${date.format('LLLL')}`);
+    this.updater.addNewPlan(vplan);
   }
 }
 

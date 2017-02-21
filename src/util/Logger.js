@@ -20,8 +20,8 @@ module.exports = new (class Logger {
    * Creates an instance of Logger.
    * @param {boolean} debug Whether to display warnings
    */
-  constructor(debug) {
-    this.debug = debug;
+  constructor(debug = false) {
+    this.shouldDebug = debug;
   }
 
   /**
@@ -59,7 +59,7 @@ module.exports = new (class Logger {
     message = `${this.date} ${message}`;
     raw = `${this.date} ${raw}\n`;
 
-    if (!['debug', 'warn'].includes(type) || this.debug) {
+    if (!['debug', 'warn'].includes(type) || this.shouldDebug) {
       // eslint-disable-next-line no-console
       console.log(message);
     }
