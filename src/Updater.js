@@ -112,8 +112,7 @@ class Updater {
     this.backupPlan(vplan.raw, 'today')
     .catch(log.error);
     this.main.plans.today = vplan;
-    // Update until 3pm (15:00)
-    if (date.hour() >= 15) {
+    if (date.hour() >= this.config.scheduledUploads) {
       return;
     }
     this.uploadPlan(vplan);
@@ -141,12 +140,12 @@ class Updater {
       this.tomorrowSchedule = null;
     }
 
-    if (date.hour() >= 15) {
+    if (date.hour() >= this.config.scheduledUploads) {
       return this.uploadPlan(vplan);
     }
 
     const timeToUpload = new Date();
-    timeToUpload.setHours(15);
+    timeToUpload.setHours(this.config.scheduledUploads);
 
     this.tomorrowSchedule = setTimeout(() => {
       this.uploadPlan(vplan);

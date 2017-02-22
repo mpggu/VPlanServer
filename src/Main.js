@@ -15,6 +15,7 @@ class Main {
     this.server = new Server(port);
     this.transformer = new Transformer();
     this.updater = new Updater(this);
+    this.config = config;
     this.wpClient = wordpress.createClient({
       url: config.wpURL,
       username: config.wpUsername,
