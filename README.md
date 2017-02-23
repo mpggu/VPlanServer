@@ -42,6 +42,6 @@ If you experience any problems or bugs, or just have a question in general, feel
 
 
 ## In-depth
-After receiving a POST request to `server.ip:1337/api/v1/vplan`, it parses the raw html data to JSON using [VPlanParser](https://github.com/mpggu/VPlanServer),
+After receiving a POST request to `server.ip:1337/api/v1/vplan`, it parses the raw html data to JSON using [VPlanParser](https://github.com/mpggu/VPlanParser),
 which is then used to satisfy GET request. It's afterwards being passed down to the `Updater` which either instantly uploads today's substitution plan up
 to a certain threshold (see [config](#config)), or puts it in the queue of being uploaded to WordPress at a later point in time.
