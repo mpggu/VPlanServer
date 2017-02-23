@@ -3,9 +3,11 @@
 const Transformer = require('./Transformer');
 const Server = require('./Server');
 const Updater = require('./Updater');
+
 const VPlan = require('vplanparser');
 const wordpress = require('wordpress');
 const moment = require('moment');
+const fs = require('fs');
 
 const config = require('../config.json');
 
@@ -28,9 +30,28 @@ class Main {
     };
 
     this.server.once('ready', this.onReady.bind(this));
-    this.server.on('newPlan', this.onNewPlan.bind(this));
 
     moment.locale('de');
+  }
+
+  /**
+   * Restores the backup of an added plan and puts it back into the queue
+   *
+   * @returns {Promise} Resolves on success
+   *
+   * @memberOf Main
+   */
+  restoreBackup() {
+    return new Promise((res, rej) => {
+      fs.readFile('./plans/tomorrow.html', { encoding: 'UTF-8' }, (err, data) => {
+        if (err) {
+          return rej(err);
+        }
+
+        this.onNewPlan(data);
+        return res();
+      });
+    });
   }
 
   /**
@@ -78,6 +99,9 @@ class Main {
    */
   onReady() {
     log.info('Server ready!');
+
+    this.restoreBackup();
+    this.server.on('newPlan', this.onNewPlan.bind(this));
   }
 
   /**

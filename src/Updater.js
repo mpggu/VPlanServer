@@ -99,7 +99,7 @@ class Updater {
   /**
    * Handles the vplan if it's from today.
    * Backs up the plan and uploads it
-   * if the clock didn't strike 3pm.
+   * if the clock didn't strike config.scheduledUploads.
    *
    * @param {Object} vplan The substitution plan to handle
    * @param {Date} date The current date
