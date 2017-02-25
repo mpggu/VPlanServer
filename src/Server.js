@@ -15,7 +15,7 @@ class Server extends EventEmitter {
   /**
    * Creates an instance of Server which will server a RESTful API to receive new plans or hand them out.
    * @param {number} port What port to run the server on.
-   *
+   * @param {Object} main A reference to the main instance
    * @memberOf Server
    */
   constructor(port, main) {
