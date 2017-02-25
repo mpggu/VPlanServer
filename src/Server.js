@@ -18,8 +18,9 @@ class Server extends EventEmitter {
    *
    * @memberOf Server
    */
-  constructor(port) {
+  constructor(port, main) {
     super();
+    this.main = main;
     this.app = express();
     this.port = port;
 
@@ -91,6 +92,32 @@ class Server extends EventEmitter {
 
       this.emit('newPlan', req.body.vplan);
       return res.sendStatus(200);
+    });
+
+    this.app.get('/api/v1/vplan/today', (req, res) => {
+      const today = this.main.plans.today;
+      if (!today) {
+        return res.json(null);
+      }
+
+      res.json({
+        data: today.table,
+        date: today.date.format('X'),
+        lastEdited: today.lastEdited.format('X'),
+      });
+    });
+
+    this.app.get('/api/v1/vplan/tomorrow', (req, res) => {
+      const tomorrow = this.main.plans.tomorrow;
+      if (!tomorrow) {
+        return res.json(null);
+      }
+
+      res.json({
+        data: tomorrow.table,
+        date: tomorrow.date.format('X'),
+        lastEdited: tomorrow.lastEdited.format('X'),
+      });
     });
   }
 }

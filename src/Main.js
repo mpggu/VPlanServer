@@ -14,7 +14,7 @@ const config = require('../config.json');
 
 class Main {
   constructor(port = 6767) {
-    this.server = new Server(port);
+    this.server = new Server(port, this);
     this.transformer = new Transformer();
     this.updater = new Updater(this);
     this.config = config;
@@ -37,13 +37,15 @@ class Main {
   /**
    * Restores the backup of an added plan and puts it back into the queue
    *
+   * @param {string} day From which day to restore the backup From
+   *
    * @returns {Promise} Resolves on success
    *
    * @memberOf Main
    */
-  restoreBackup() {
+  restoreBackup(day = 'today') {
     return new Promise((res, rej) => {
-      fs.readFile('./plans/tomorrow.html', { encoding: 'UTF-8' }, (err, data) => {
+      fs.readFile(`./plans/${day}.html`, { encoding: 'UTF-8' }, (err, data) => {
         if (err) {
           return rej(err);
         }
@@ -100,7 +102,8 @@ class Main {
   onReady() {
     log.info('Server ready!');
 
-    this.restoreBackup();
+    Promise.all([this.restoreBackup(), this.restoreBackup('tomorrow')])
+    .then(() => log.debug('Restored all backups'));
     this.server.on('newPlan', this.onNewPlan.bind(this));
   }
 

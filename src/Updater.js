@@ -17,6 +17,7 @@ class Updater {
    */
   constructor(main) {
     this.main = main;
+    this.config = require('../config.json');
 
     schedule.scheduleJob('* * 0 * * *', this.swapPlans.bind(this));
     this.tomorrowSchedule = null;
