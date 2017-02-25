@@ -150,7 +150,7 @@ class Updater {
 
     this.tomorrowSchedule = setTimeout(() => {
       this.uploadPlan(vplan);
-    }, timeToUpload - (new Date()));
+    }, timeToUpload.getTime() - (new Date().getTime()));
   }
 }
 
