@@ -31,7 +31,7 @@ class Updater {
    */
   swapPlans() {
     log.debug('Swapping plans..');
-    this.main.plans.today = this.main.plans.tomorrow || this.main.plans.today;
+    this.main.plans.today = this.main.plans.tomorrow;
     this.main.plans.tomorrow = null;
   }
 
