@@ -36,7 +36,7 @@ class Updater {
 
     this.main.plans.today = null;
 
-    if (now.getDay() === tomorrow.getDay()) {
+    if (tomorrow && now.getDay() === tomorrow.getDay()) {
       this.main.plans.today = this.main.plans.tomorrow;
       this.main.plans.tomorrow = null;
       return;
