@@ -31,8 +31,16 @@ class Updater {
    */
   swapPlans() {
     log.debug('Swapping plans..');
-    this.main.plans.today = this.main.plans.tomorrow;
-    this.main.plans.tomorrow = null;
+    const now = new Date();
+    const tomorrow = this.main.plans.tomorrow.date;
+
+    this.main.plans.today = null;
+
+    if (now.getDay() === tomorrow.getDay()) {
+      this.main.plans.today = this.main.plans.tomorrow;
+      this.main.plans.tomorrow = null;
+      return;
+    }
   }
 
   /**
