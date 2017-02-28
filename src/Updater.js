@@ -38,8 +38,8 @@ class Updater {
 
     if (tomorrow && now.getDay() === tomorrow.getDay()) {
       this.main.plans.today = this.main.plans.tomorrow;
+      this.backupPlan(this.main.plans.today.raw, 'today');
       this.main.plans.tomorrow = null;
-      return;
     }
   }
 
