@@ -56,11 +56,11 @@ class Updater {
     const date = moment();
     const vplanDate = moment(vplan.date);
 
-    if (vplanDate.isSame(date)) {
+    if (vplanDate.isSame(date, 'day')) {
       return this.handleToday(vplan, date);
     }
 
-    if (vplanDate.isAfter(date)) {
+    if (vplanDate.isAfter(date, 'day')) {
       return this.handleTomorrow(vplan, date);
     }
 
