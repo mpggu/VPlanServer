@@ -36,7 +36,7 @@ class Updater {
 
     this.main.plans.today = null;
 
-    if (tomorrow && now.getDay() === tomorrow.getDay()) {
+    if (tomorrow && now.getDay() === tomorrow.toDate().getDay()) {
       this.main.plans.today = this.main.plans.tomorrow;
       this.backupPlan(this.main.plans.today.raw, 'today');
       this.main.plans.tomorrow = null;
