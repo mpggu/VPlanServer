@@ -119,6 +119,44 @@ class Server extends EventEmitter {
         lastEdited: tomorrow.lastEdited.format('X'),
       });
     });
+
+    this.app.get('/api/v1/vplan/today/:course', (req, res) => {
+      const today = this.main.plans.today;
+      const course = req.params.course;
+
+      if (!today) {
+        return res.json(null);
+      }
+
+      if (!course || (course && req.params.course.length > 4)) {
+        return res.sendStatus(400);
+      }
+
+      res.json({
+        data: today.search('klasse', course),
+        date: today.date.format('X'),
+        lastEdited: today.lastEdited.format('X'),
+      });
+    });
+
+    this.app.get('/api/v1/vplan/tomorrow/:course', (req, res) => {
+      const tomorrow = this.main.plans.tomorrow;
+      const course = req.params.course;
+
+      if (!tomorrow) {
+        return res.json(null);
+      }
+
+      if (!course || (course && req.params.course.length > 4)) {
+        return res.sendStatus(400);
+      }
+
+      res.json({
+        data: tomorrow.search('klasse', course),
+        date: tomorrow.date.format('X'),
+        lastEdited: tomorrow.lastEdited.format('X'),
+      });
+    });
   }
 }
 
