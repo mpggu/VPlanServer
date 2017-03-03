@@ -32,12 +32,12 @@ class Updater {
   swapPlans() {
     log.debug('Swapping plans..');
     const now = new Date();
-    const tomorrow = this.main.plans.tomorrow.date;
+    const tomorrow = this.main.plans.tomorrow;
 
     this.main.plans.today = null;
 
-    if (tomorrow && now.getDay() === tomorrow.toDate().getDay()) {
-      this.main.plans.today = this.main.plans.tomorrow;
+    if (tomorrow && now.getDay() === tomorrow.date.toDate().getDay()) {
+      this.main.plans.today = tomorrow;
       this.backupPlan(this.main.plans.today.raw, 'today');
       this.main.plans.tomorrow = null;
     }
