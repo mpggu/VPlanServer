@@ -77,7 +77,7 @@ class Server extends EventEmitter {
   initServer() {
     this.app.all('/*', (req, res, next) => {
       // CORS headers
-      res.header('Access-Control-Allow-Origin', req.get('Origin'));
+      res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
       res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept,X-Access-Token,X-Key');
       res.header('Access-Control-Allow-Credentials', 'true');
