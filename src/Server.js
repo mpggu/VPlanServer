@@ -58,7 +58,7 @@ class Server extends EventEmitter {
   setup() {
     const stream = this.createWriteStream();
     this.app.use(morgan('combined', { stream }));
-    this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
     this.app.use(bodyParser.json());
 
     this.initServer();
