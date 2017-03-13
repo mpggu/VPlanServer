@@ -26,7 +26,7 @@ class Transformer {
     let html = `<h2 style="text-align: center; margin-top: 5px">${date.format('dddd, D. MMMM YYYY')}</h2>`;
     html += '<small id="app-notice">Gefällt dir nicht was du siehst? Wenn du >Android 5.0 (LOLLIPOP) hast, dann lade dir doch die ';
     html += '<a href="http://mpg-umstadt.de/downloads/mpg-app.apk>Beta-Version der neuen MPG-App</a> ';
-    html += 'herunter! Bald auch im Google Play- bzw. Apple App store';
+    html += 'herunter! Bald auch im Google Play- bzw. Apple App store</small>';
     html += '<table class="vplan"><tbody><tr>';
 
     html += this.extractHeaders(table);
