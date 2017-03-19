@@ -111,7 +111,7 @@ class Transformer {
       for (let content in sub) {
         // Bolden 'EVA' & 'fällt aus'
         const text = ['EVA', 'fällt aus'].includes(sub[content]) ? `<b>${sub[content]}</b>` : sub[content];
-        const attributes = ['style="text-align: left"', this.unimportantColumns.includes(content) ? 'class="unimportant"' : ''];
+        const attributes = [this.unimportantColumns.includes(content) ? 'class="unimportant"' : ''];
 
         output += `<td ${attributes.join(' ')}>${text}</th>`;
       }
