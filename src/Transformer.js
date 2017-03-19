@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs');
+
 const moment = require('moment');
 
 /**
@@ -8,6 +10,15 @@ const moment = require('moment');
  * @class Transformer
  */
 class Transformer {
+  constructor() {
+    this.unimportantColumns = ['fach', 'lehrer'];
+    this.styleSheet = fs.readFileSync('./src/util/style.css', { encoding: 'UTF-8' });
+
+    this.style = {
+      headerCount: 7,
+    };
+  }
+
   /**
    * Converts the untis data to WordPress-ready html.
    *
@@ -20,21 +31,34 @@ class Transformer {
     const table = data.table;
     const date = moment(data.date);
     const lastEdited = moment(data.lastEdited);
+    const headers = this.extractHeaders(table);
+    const subs = this.extractSubs(table);
+
     date.locale('de');
     lastEdited.locale('de');
 
-    let html = `<h2 style="text-align: center; margin-top: 5px">${date.format('dddd, D. MMMM YYYY')}</h2>`;
+    let style = '<style type="text/css">';
+    // Dynamically adjust width of table headers
+    style += this.styleSheet.replace('_headerCount_', '' + (1 / this.style.headerCount) + '%')
+    .replace('__headerCount__', '' + (1 / (this.style.headerCount - this.unimportantColumns.length)) + '%');
+    style += '</style>';
+
+
+    let html = `${style}<h2 style="text-align: center; margin-top: 5px">${date.format('dddd, D. MMMM YYYY')}</h2>`;
     html += '<small id="app-notice">Gefällt dir nicht was du siehst? Wenn du >Android 5.0 (LOLLIPOP) hast, dann lade dir doch die ';
     html += '<a href="http://mpg-umstadt.de/downloads/mpg-app.apk">Beta-Version der neuen MPG-App</a> ';
     html += 'herunter! Bald auch im Google Play- bzw. Apple App store</small>';
     html += '<table class="vplan"><tbody><tr>';
 
-    html += this.extractHeaders(table);
-    html += this.extractSubs(table);
+    html += headers;
+    html += subs;
 
     html += '</tr></tbody></table><br><br>';
     html += `<p>Zuletzt geändert: ${lastEdited.format('LLLL')}</p>`;
 
+    this.style = {
+      headerCount: 7,
+    };
     return html;
   }
 
@@ -51,9 +75,14 @@ class Transformer {
     const headers = Object.keys(table[0]).map(header => header[0].toUpperCase() + header.slice(1));
 
     let output = '';
+    this.style.headerCount = headers.length;
 
     for (let header of headers) {
-      output += `<th style="text-align: left; width: ${1 / headers.length}%">${header}</th>`;
+      const attributes = [
+        this.unimportantColumns.includes(header.toLowerCase()) ? 'class="unimportant"' : '',
+      ];
+
+      output += `<th ${attributes.join(' ')}>${header}</th>`;
     }
 
     output += '</tr>';
@@ -80,7 +109,9 @@ class Transformer {
       for (let content in sub) {
         // Bolden 'EVA' & 'fällt aus'
         const text = ['EVA', 'fällt aus'].includes(sub[content]) ? `<b>${sub[content]}</b>` : sub[content];
-        output += `<td style="text-align: left">${text}</th>`;
+        const attributes = ['style="text-align: left"', this.unimportantColumns.includes(content) ? 'class="unimportant"' : ''];
+
+        output += `<td ${attributes.join(' ')}>${text}</th>`;
       }
 
       output += '</tr>';

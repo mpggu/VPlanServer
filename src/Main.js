@@ -75,7 +75,7 @@ class Main {
   }
 
   /**
-   * Edits the conrtent of the Wordpress post containing the substitution plan
+   * Edits the content of the Wordpress post containing the substitution plan
    *
    * @param {string} content What to set the content of the post to
    * @returns {Promise} Resolved on success
