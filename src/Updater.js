@@ -19,7 +19,7 @@ class Updater {
     this.main = main;
     this.config = require('../config.json');
 
-    schedule.scheduleJob('0 0 0 * * 1-5', this.swapPlans.bind(this));
+    schedule.scheduleJob('0 0 0 * * *', this.swapPlans.bind(this));
     this.tomorrowSchedule = null;
   }
 
