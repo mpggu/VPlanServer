@@ -1,4 +1,4 @@
-#logs
+# logs
 
 All internal logs will be stored here. Each day will have its seperate file ->
 

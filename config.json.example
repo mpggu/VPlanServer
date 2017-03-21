@@ -1,8 +1,8 @@
 {
-  "auth": "secret_xxx",
-  "wpURL": "wp.myschool.edu",
-  "wpUsername": "robot",
-  "wpPassword": "hunter2",
-  "wpPageID": "123",
-  "scheduledUploads": 15
+	"auth": "secret_xxx",
+	"wpURL": "wp.myschool.edu",
+	"wpUsername": "robot",
+	"wpPassword": "hunter2",
+	"wpPageID": "123",
+	"scheduledUploads": 15
 }
