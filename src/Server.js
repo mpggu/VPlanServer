@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const rfs = require('rotating-file-stream');
 
 const config = require('../config.json');
 
@@ -35,18 +36,12 @@ class Server extends EventEmitter {
    * @memberOf Server
    */
   createWriteStream() {
-    const filePath = path.join(__dirname, '../logs/access.log');
+    const logDir = path.join(__dirname, '../logs/access');
 
-    try {
-      fs.accessSync(filePath);
-    } catch (err) {
-      if (err.code === 'ENOENT') {
-        fs.openSync(filePath, 'wx');
-      } else {
-        throw err;
-      }
-    }
-    return fs.createWriteStream(filePath, { flags: 'a' });
+		return rfs('access.log', {
+			interval: '1d',
+			path: logDir,
+		});
   }
 
   /**

@@ -5,7 +5,7 @@
 VPlanServer is the server for a customly built substitution plan system.
 It runs an [express](http://expressjs.com/) webserver, which is used to serve the JSON data of today's and tomorrow's substitution plan,
 aswell as to listen to incoming substitution plans from authorized sources (see [VPlanClient](https://github.com/mpggu/VPlanClient))
-For emergency cases it backs up the most recent substitution plans into `/plans`. It's saving all the http request logs to `/logs/access.log` and all other
+For emergency cases it backs up the most recent substitution plans into `/plans`. It's saving all the http request logs to `/logs/access/XX_XX_XX.log` and all other internal
 logs to `logs/console/YEAR_MONTH_DAY.log`.
 
 ## Installation
