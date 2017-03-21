@@ -5,7 +5,6 @@ const EventEmitter = require('events');
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const fs = require('fs');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 

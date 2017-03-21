@@ -22,12 +22,12 @@ Then create a `config.json` in your root directory to configure the behaviour of
 
 ```js
 {
-	"auth": "secret_xxx",       // Authentication for allowing to POST substitution plans
-	"wpURL": "wp.myschool.edu", // The URL of the WordPress Installation
-	"wpUsername": "robot",      // The username of the WordPress user
-	"wpPassword": "hunter2",    // The password of the WordPress user
-	"wpPageID": "123",          // The WordPress Page-ID of the substitution plan.
-	"scheduledUploads": 15      // When to upload tomorrow's substitution plan. Accepts 0-23. 15 will upload at 15pm
+  "auth": "secret_xxx",       // Authentication for allowing to POST substitution plans
+  "wpURL": "wp.myschool.edu", // The URL of the WordPress Installation
+  "wpUsername": "robot",      // The username of the WordPress user
+  "wpPassword": "hunter2",    // The password of the WordPress user
+  "wpPageID": "123",          // The WordPress Page-ID of the substitution plan.
+  "scheduledUploads": 15      // When to upload tomorrow's substitution plan. Accepts 0-23. 15 will upload at 15pm
 }
 ```
 
