@@ -77,7 +77,7 @@ class Server extends EventEmitter {
 			res.header('Access-Control-Allow-Credentials', 'true');
 
 			const referrer = req.headers.referer || req.headers.referrer;
-			if (referrer.includes('yandex') return res.sendStatus(403);
+			if (referrer.includes('yandex')) return res.sendStatus(403);
 
 			next();
 		});
