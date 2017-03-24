@@ -155,6 +155,7 @@ class Updater {
 
 		const timeToUpload = new Date();
 		timeToUpload.setHours(this.config.scheduledUploads);
+		timeToUpload.setMinutes(0);
 
 		this.tomorrowSchedule = setTimeout(() => {
 			this.uploadPlan(vplan);
