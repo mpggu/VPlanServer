@@ -103,7 +103,10 @@ class Main {
 		log.info('Server ready!');
 
 		Promise.all([this.restoreBackup(), this.restoreBackup('tomorrow')])
-		.then(() => log.debug('Restored all backups'));
+		.then(() => log.debug('Restored all backups'))
+		.catch(e => {
+			log.error("Couldn't restore backups! If this is your first time starting, ignore this message.");
+		});
 		this.server.on('newPlan', this.onNewPlan.bind(this));
 	}
 

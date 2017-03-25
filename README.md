@@ -27,7 +27,8 @@ Then create a `config.json` in your root directory to configure the behaviour of
   "wpUsername": "robot",      // The username of the WordPress user
   "wpPassword": "hunter2",    // The password of the WordPress user
   "wpPageID": "123",          // The WordPress Page-ID of the substitution plan.
-  "scheduledUploads": 15      // When to upload tomorrow's substitution plan. Accepts 0-23. 15 will upload at 15pm
+  "scheduledUploads": 15,      // When to upload tomorrow's substitution plan. Accepts 0-23. 15 will upload at 15pm
+  "port": 6767                // On what port to run the webserver on
 }
 ```
 
