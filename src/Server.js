@@ -76,6 +76,9 @@ class Server extends EventEmitter {
 			res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept,X-Access-Token,X-Key');
 			res.header('Access-Control-Allow-Credentials', 'true');
 
+			const referrer = (req.headers.referer || req.headers.referrer) || '';
+			if (referrer.includes('yandex')) return res.sendStatus(403);
+
 			next();
 		});
 
@@ -90,12 +93,14 @@ class Server extends EventEmitter {
 
 		this.app.get('/api/v1/vplan/today', (req, res) => {
 			const today = this.main.plans.today;
+			const teacherQuery = req.query.teacher;
 			if (!today) {
 				return res.json(null);
 			}
 
+			const table = teacherQuery ? today.search('lehrer', teacherQuery) : today.table;
 			res.json({
-				data: today.table,
+				data: table,
 				date: today.date.format('X'),
 				lastEdited: today.lastEdited.format('X'),
 			});
@@ -103,12 +108,14 @@ class Server extends EventEmitter {
 
 		this.app.get('/api/v1/vplan/tomorrow', (req, res) => {
 			const tomorrow = this.main.plans.tomorrow;
+			const teacherQuery = req.query.teacher;
 			if (!tomorrow) {
 				return res.json(null);
 			}
 
+			const table = teacherQuery ? tomorrow.search('lehrer', teacherQuery) : tomorrow.table;
 			res.json({
-				data: tomorrow.table,
+				data: table,
 				date: tomorrow.date.format('X'),
 				lastEdited: tomorrow.lastEdited.format('X'),
 			});

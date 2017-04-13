@@ -130,7 +130,7 @@ class Updater {
 	/**
 	 * Handles the vplan if it's from tomorrow.
 	 * Backs up the plan and puts it in the upload queue.
-	 * Uploads instantly if the clock stroke 3pm.
+	 * Uploads instantly if the clock stroke Xpm.
 	 *
 	 * @param {Object} vplan The substitution plan to handle
 	 * @param {Date} date The current date
@@ -155,6 +155,8 @@ class Updater {
 
 		const timeToUpload = new Date();
 		timeToUpload.setHours(this.config.scheduledUploads);
+		timeToUpload.setMinutes(0);
+		timeToUpload.setSeconds(0);
 
 		this.tomorrowSchedule = setTimeout(() => {
 			this.uploadPlan(vplan);

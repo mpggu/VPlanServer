@@ -4,5 +4,6 @@
 	"wpUsername": "robot",
 	"wpPassword": "hunter2",
 	"wpPageID": "123",
-	"scheduledUploads": 15
+	"scheduledUploads": 15,
+	"port": 6767
 }
