@@ -13,6 +13,7 @@ class Transformer {
 	constructor() {
 		this.unimportantColumns = ['fach', 'raum', 'vertreter'];
 		this.styleSheet = fs.readFileSync('./src/util/style.css', { encoding: 'UTF-8' });
+		this.additionalHTML = fs.readFileSync('./src/util/additionalHTML.html', { encoding: 'UTF-8' });
 
 		this.style = {
 			headerCount: 7,
@@ -45,11 +46,8 @@ class Transformer {
 
 
 		let html = `${style}<h2 style="text-align: center; margin-top: 5px">${date.format('dddd, D. MMMM YYYY')}</h2>`;
-		html += '<small id="app-notice">Das Fach, der Raum und der Vertreter wurden für die Mobilansicht ausgelassen. ';
-		html += 'Gefällt dir das nicht? Klick in deinem Browser auf "Desktop-Site anfordern"';
-		html += '\nWenn du >Android 5.0 (LOLLIPOP) hast, dann lade dir doch die ';
-		html += '<a href="http://mpg-umstadt.de/downloads/mpg-app.apk">Beta-Version der neuen MPG-App</a> ';
-		html += 'herunter! Bald auch im Google Play- bzw. Apple App store.</small>';
+		html += this.additionalHTML;
+
 		html += '<table class="vplan"><tbody><tr>';
 
 		html += headers;
